@@ -90,7 +90,7 @@ async function createWhatsAppClient(instanceId = 'default') {
       usuariosEmAtendimento.set(from, usuario);
 
       return await client.sendMessage(from, {
-        text: `Olá! Seja bem-vindo(a) à Kantine 😊\n\nNo momento não estamos disponíveis.\n\n🕒 *Nossos horários de atendimento são:*\n• Seg: 12h – 19h\n• Ter a Sex: 10h – 18h\n• Sáb: 10h – 17h30\n\nMas deixe sua mensagem, que assim que alguém estiver disponível, te atendemos! 😊\n\nNos diga o que precisa selecionando um dos números abaixo:\n\n*1*  – Encomendas de Bolos 🍰\n*2*  – Pedidos Delivery ou Retirada 🛵\n*3*  – Encomendas de Outros Produtos 🥐`
+        text: `Olá! Seja bem-vindo(a) à Kantine 😊\n\nNo momento não estamos disponíveis.\n\n🕒 *Nossos horários de atendimento são:*\n• Seg: 12h – 19h\n• Ter a Sex: 10h – 18h\n• Sáb: 10h – 17h30\n\nMas deixe sua mensagem, que assim que alguém estiver disponível, te atendemos! 😊\n\nNos diga o que precisa selecionando um dos números abaixo:\n\n*1*  – Encomendas de Bolos 🍰\n*2*  – Pedidos Delivery ou Retirada 🛵\n*3*  – Encomendas de Outros Produtos 🥐\n*4*  – Nossos Horários de Funcionamento 🕒`
       });
     }
 
@@ -147,7 +147,7 @@ Nos diga o que precisa selecionando um dos números abaixo:
 
         case '4':
           await client.sendMessage(from, {
-            text: 
+            text: `Já vou te passar para o atendente! 😊\n\nEnquanto isso, me diga como podemos te ajudar!!\n\nPra voltar as opções do menu, digite "MENU".`
           });
           break;
 
@@ -160,7 +160,7 @@ Nos diga o que precisa selecionando um dos números abaixo:
             usuario.ativo = false;
             usuariosEmAtendimento.set(from, usuario);
             return await client.sendMessage(from, {
-              text: `Já vou te passar para o atendente! 😊\n\n Enquanto isso, me diga como podemos te ajudar!!\n\nPra voltar as opções do menu, digite "MENU".`
+              text: `Já vou te passar para o atendente! 😊\n\nEnquanto isso, me diga como podemos te ajudar!!\n\nPra voltar as opções do menu, digite "MENU".`
             });
           }
 
