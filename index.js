@@ -81,23 +81,26 @@ async function createWhatsAppClient(instanceId = 'default') {
     const usuario = usuariosEmAtendimento.get(from) || { ativo: false, ultimoContato: 0, tentativasInvalidas: 0 };
     const tempoInativo = agora - usuario.ultimoContato > 30 * 60 * 1000;
   
-    usuario.ultimoContato = agora;
-  
-    if (!estaDentroDoHorarioDeAtendimento() && !usuario.ativo) {
+   usuario.ultimoContato = agora;
+    /* if (!estaDentroDoHorarioDeAtendimento() && !usuario.ativo && usuario.tentativasInvalidas < 2) 
+      {
       usuario.ativo = true;
       usuario.tentativasInvalidas = 0;
       usuariosEmAtendimento.set(from, usuario);
   
-      return await client.sendMessage(from, {
-        text: `Olá! Seja bem-vindo(a) à Kantine 😊\n\n*No momento não estamos disponíveis.*\n\n🕒 *Nossos horários de atendimento são:*\n\n• Seg: 12h – 19h\n• Ter a Sex: 10h – 18h\n• Sáb: 10h – 17h30\n\nMas deixe sua mensagem, que assim que alguém estiver disponível, te atendemos! 😊\n\nNos diga o que precisa selecionando um dos números abaixo:\n\n*1*  – Encomendas de Bolos 🍰\n*2*  – Pedidos Delivery ou Retirada 🛵\n*3*  – Encomendas de Outros Produtos 🥐\n\n Assim que alguém tiver disponível, daremos continuidade ao seu atendimento! 😉`
-      });
+      
     }
-  
+  */
     if ((textoLimpo === 'menu' || tempoInativo) && !usuario.ativo) {
       usuario.ativo = true;
       usuario.tentativasInvalidas = 0;
       usuariosEmAtendimento.set(from, usuario);
   
+      if (!estaDentroDoHorarioDeAtendimento()) {
+        return await client.sendMessage(from, {
+          text: `Olá! Seja bem-vindo(a) à Kantine 😊\n\n*No momento não estamos disponíveis.*\n\n🕒 *Nossos horários de atendimento são:*\n\n• Seg: 12h – 19h\n• Ter a Sex: 10h – 18h\n• Sáb: 10h – 17h30\n\nMas deixe sua mensagem, que assim que alguém estiver disponível, te atendemos! 😊\n\nNos diga o que precisa selecionando um dos números abaixo:\n\n*1*  – Encomendas de Bolos 🍰\n*2*  – Pedidos Delivery ou Retirada 🛵\n*3*  – Encomendas de Outros Produtos 🥐\n\n Assim que alguém tiver disponível, daremos continuidade ao seu atendimento! 😉`
+        });
+      } else {
       return await client.sendMessage(from, {
         text: `Olá! Seja bem-vindo(a) à Kantine! 😊
   
@@ -120,7 +123,8 @@ async function createWhatsAppClient(instanceId = 'default') {
   • Ter a Sex: 10h – 18h  
   • Sáb: 10h – 17h30`
       });
-    }
+    
+    }}
   
     if (usuario.ativo) {
       if (!estaDentroDoHorarioDeAtendimento()) {
@@ -129,6 +133,7 @@ async function createWhatsAppClient(instanceId = 'default') {
           return await client.sendMessage(from, {
             text: `Olá! Estamos fora do horário de atendimento no momento.\n\n*Horários de Funcionamento das Lojas*:\n• Seg: 12h – 19h\n• Ter a Sex: 10h – 18h\n• Sáb: 10h – 17h30\n\nNo momento, não podemos transferir para um atendente. Por favor, escolha uma das outras opções.`
           });
+          
         }
       }
   
@@ -159,38 +164,49 @@ async function createWhatsAppClient(instanceId = 'default') {
             await client.sendMessage(from, {
               text: `Já vou te passar para o atendente! 😊\n\nEnquanto isso, me diga como podemos te ajudar!!\n\nPra voltar as opções do menu, digite "MENU".`
             });
+            usuario.ativo = false; // Desativa após resposta válida
+          break;
           } else {
             await client.sendMessage(from, {
               text: `Estamos fora do horário de atendimento no momento.\n\n*Horários de Funcionamento das Lojas*:\n• Seg: 12h – 19h\n• Ter a Sex: 10h – 18h\n• Sáb: 10h – 17h30\n\nPor favor, escolha uma das outras opções ou volte durante o horário de atendimento.`
             });
+            usuario.ativo = false; // Desativa após resposta válida
+            break;
           }
-          usuario.ativo = false; // Desativa após resposta válida
-          break;
-  
-        default:
-          usuario.tentativasInvalidas = (usuario.tentativasInvalidas || 0) + 1;
-  
-          if (usuario.tentativasInvalidas >= 2 && !estaDentroDoHorarioDeAtendimento()) {
-            usuario.ativo = false;
-            usuariosEmAtendimento.set(from, usuario);
-            return await client.sendMessage(from, {
-              text: `Assim que alguém estiver disponível, daremos continuidade ao seu atendimento. 😊\n\nPra voltar as opções do menu, digite "MENU".`
-            });
-          } 
-          else if (usuario.tentativasInvalidas == 1 && estaDentroDoHorarioDeAtendimento()) {  
+          default:
+            usuario.tentativasInvalidas = (usuario.tentativasInvalidas || 0) + 1;
           
-          await client.sendMessage(from, {
-            text: "Por favor, selecione uma das opções do menu!"
-          });
-        }
+            if (!estaDentroDoHorarioDeAtendimento()) {
+              if (usuario.tentativasInvalidas >= 2) {
+                usuario.ativo = false;
+                usuariosEmAtendimento.set(from, usuario);
+                return await client.sendMessage(from, {
+                  text: `Assim que alguém estiver disponível, daremos continuidade ao seu atendimento. 😊\n\nPra voltar as opções do menu, digite "MENU".`
+                });
+            
+              } else {
+                usuariosEmAtendimento.set(from, usuario);
+                return await client.sendMessage(from, {
+                  text: `Por favor, selecione uma das opções do menu.`
+                });
+        
+              }
+            }
           
-          else  {
-            await client.sendMessage(from, {
-              text: `Já vou te passar para o atendente! 😊\n\nEnquanto isso, me diga como podemos te ajudar!!\n\nPra voltar as opções do menu, digite "MENU".`
-            });
-            usuario.ativo = false;
-          break;
-          }
+            // Dentro do horário de atendimento
+            if (usuario.tentativasInvalidas >= 2) {
+              usuario.ativo = false;
+              usuariosEmAtendimento.set(from, usuario);
+              return await client.sendMessage(from, {
+                text: `Já vou te passar para o atendente! 😊\n\nEnquanto isso, me diga como podemos te ajudar!!\n\nPra voltar as opções do menu, digite "MENU".`
+              });
+            } else {
+              usuariosEmAtendimento.set(from, usuario);
+              return await client.sendMessage(from, {
+                text: `Por favor, selecione uma das opções do menu!`
+              });
+            }
+          
       }
   
       if (['1', '2', '3'].includes(textoLimpo)) {
