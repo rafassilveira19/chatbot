@@ -140,7 +140,7 @@ async function createWhatsAppClient(instanceId = 'default') {
       switch (textoLimpo) {
         case '1':
           await client.sendMessage(from, {
-            text: `Dê uma olhadinha em nosso cardápio: https://drive.google.com/file/d/1YVXaOwr9mdlE0FZJWbgXUjPhWC51tnGw\n\n*Preencha pra mim:*\n\nSeu nome:\nQual bolo você quer:\nQual data e horário você quer retirar:\n\n📦 Encomendas devem ser feitas com 48h de antecedência — se for de última hora, a gente vê com a cozinha se consegue te atender!\n\nPra voltar as opções do menu, digite "MENU".`
+            text: `Dê uma olhadinha em nosso cardápio: https://drive.google.com/file/d/1YVXaOwr9mdlE0FZJWbgXUjPhWC51tnGw\n\n*Preencha pra mim e já já venho confirmar seu pedido:*\n\nSeu nome:\nQual bolo você quer:\nTamanho do Bolo:\nQual data e horário você quer retirar:\n\n📦 Encomendas devem ser feitas com 48h de antecedência — se for de última hora, a gente vê com a cozinha se consegue te atender!\n\nPra voltar as opções do menu, digite "MENU".`
           });
           usuario.ativo = false; // Desativa após resposta válida
           break;
