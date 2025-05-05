@@ -98,7 +98,7 @@ async function createWhatsAppClient(instanceId = 'default') {
   
       if (!estaDentroDoHorarioDeAtendimento()) {
         return await client.sendMessage(from, {
-          text: `Olá! Seja bem-vindo(a) à Kantine 😊\n\n*No momento não estamos disponíveis.*\n\n🕒 *Nossos horários de atendimento são:*\n\n• Seg: 12h – 19h\n• Ter a Sex: 10h – 18h\n• Sáb: 10h – 17h30\n\nMas deixe sua mensagem, que assim que alguém estiver disponível, te atendemos! 😊\n\nNos diga o que precisa selecionando um dos números abaixo:\n\n*1*  – Encomendas de Bolos 🍰\n*2*  – Pedidos Delivery ou Retirada 🛵\n*3*  – Encomendas de Outros Produtos 🥐\n\n Assim que alguém tiver disponível, daremos continuidade ao seu atendimento! 😉`
+          text: `Olá! Seja bem-vindo(a) à Kantine 😊\n\n*No momento não estamos disponíveis.*\n\n🕒 *Nossos horários de atendimento no Whatsapp são:*\n\n• Seg: 12h – 19h\n• Ter a Sex: 10h – 18h\n• Sáb: 10h – 17h30\n• Aos Domingos não abrimos. – 17h30\n\nMas deixe sua mensagem, que assim que alguém estiver disponível, te atendemos! 😊\n\nNos diga o que precisa selecionando um dos números abaixo:\n\n*1*  – Encomendas de Bolos 🍰\n*2*  – Pedidos Delivery ou Retirada 🛵\n*3*  – Encomendas de Outros Produtos 🥐\n\n Assim que alguém tiver disponível, daremos continuidade ao seu atendimento! 😉`
         });
       } else {
       return await client.sendMessage(from, {
@@ -115,8 +115,8 @@ async function createWhatsAppClient(instanceId = 'default') {
   
   📍 *Loja (Vinhedos e Getúlio)*  
   • Seg: 12h – 19h  
-  • Ter a Sex: 10h – 18h  
-  • Sáb: 10h – 17h30  
+  • Ter a Sex: 09h – 18h  
+  • Sáb: 09h – 18h  
   
   📱 *WhatsApp e Delivery*  
   • Seg: 12h – 19h  
@@ -147,7 +147,7 @@ async function createWhatsAppClient(instanceId = 'default') {
   
         case '2':
           await client.sendMessage(from, {
-            text: `Para facilitar o seu pedido de *delivery*, acesse: https://pedido.takeat.app/kantinegastronomia\n\nCaso queira fazer um pedido pra retiradas, é só selecionar a opção de *retirada* no site.\n\nPra voltar as opções do menu, digite "MENU".`
+            text: `Para facilitar o seu pedido de *delivery*, acesse: https://pedido.takeat.app/kantinegastronomia\n\nCaso queira fazer um pedido pra retirada, é só selecionar a opção de *retirada* no site.\n\nPra voltar as opções do menu, digite "MENU".`
           });
           usuario.ativo = false; // Desativa após resposta válida
           break;
