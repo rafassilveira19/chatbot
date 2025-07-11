@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>O Céu no Dia que Você Nasceu</title>
+  <link rel="icon" href="imagens/icon.png" type="image/png" />
+  <style>
+   
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      font-family: 'Lora', serif;
+      color: #fff;
+      position: relative;
+    }
+
+    
+   body {
+  position: relative;
+  overflow: hidden;
+}
+
+
+body::before {
+  content: "";
+  position: absolute;
+  top: -10%; left: -10%;
+  width: 120%;
+  height: 120%;
+  background: url('imagens/ceu-dia-nascimento.png') center/cover no-repeat;
+  transform: scale(1.05);
+  animation: kenburns 20s ease-in-out infinite both;
+  z-index: -2;
+}
+
+
+.stars, .content, .voltar {
+  position: relative;
+  z-index: 1;
+}
+
+
+@keyframes kenburns {
+  0%   { transform: scale(1.05) translate(0%, 0%); }
+  25%  { transform: scale(1.1)  translate(-2%, -2%); }
+  50%  { transform: scale(1.07) translate(-1%, 1%); }
+  75%  { transform: scale(1.1)  translate(2%, -1%); }
+  100% { transform: scale(1.05) translate(0%, 0%); }
+}
+
+
+   
+   .stars, .stars::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 200%; height: 200%; 
+      background: transparent url('data:image/svg+xml;utf8,\
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">\
+<circle cx="2" cy="2" r="1" fill="white" opacity="0.8"/>\
+<circle cx="50" cy="50" r="1" fill="white" opacity="0.6"/>\
+<circle cx="120" cy="80" r="1" fill="white" opacity="0.7"/>\
+<circle cx="180" cy="150" r="1" fill="white" opacity="0.5"/>\
+</svg>') repeat;
+      animation: moveStars 300s linear infinite;
+      pointer-events: none;
+    }
+    .stars::after {
+      animation-duration: 120s;
+      opacity: 0.5;
+    }
+
+    @keyframes moveStars {
+      from { transform: translate(0, 0); }
+      to { transform: translate(-50%, -50%); }
+    }
+
+  
+    .content {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      background: rgba(0,0,0,0.4);
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    }
+    .content h1 {
+  font-size: 1.8rem; 
+  margin-bottom: 10px;
+  text-shadow: 0 0 8px rgba(255,255,255,0.7);
+}
+.content p {
+  font-size: 1rem; 
+  line-height: 1.4;
+  text-shadow: 0 0 6px rgba(255,255,255,0.5);
+}
+
+
+    .voltar {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+    }
+    .voltar a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .voltar a:hover {
+      background: rgba(255,255,255,0.2);
+      transform: scale(1.05);
+    }
+
+    @media(max-width: 480px) {
+      .content {
+        width: 90%;
+        padding: 20px;
+      }
+      .content h1 { font-size: 2rem; }
+      .content p { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  
+  <div class="stars"></div>
+  <div class="stars"></div>
+
+  <div class="content">
+    <h1>O Céu em 12 de Julho de 2005 às 07h20</h1>
+    <p>
+      No exato momento em que você chegou, o céu<br />
+      brilhava assim: a Via Láctea cortando o céu,<br />
+      e cada estrela guardando um desejo só seu.
+    </p>
+  </div>
+
+  <div class="voltar">
+    <a href="index.html">← Voltar ao menu</a>
+  </div>
+
+</body>
+</html>
